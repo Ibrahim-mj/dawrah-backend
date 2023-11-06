@@ -32,9 +32,14 @@ class UserCreateView(generics.CreateAPIView):
 
 class AllUsersListView(generics.ListAPIView):
     """
-    A view that returns a list of all users in the system.
+    A view that returns a paginated list of all users in the system.
 
     Only authenticated users with admin privileges are allowed to access this view.
+
+    The list can be filtered by searching for specific fields, and sorted by
+    id, email, first_name, last_name, is_staff, or is_active.
+
+    Pagination is controlled by the 'page' and 'page_size' query parameters.
     """
 
     serializer_class = UserSerializer
@@ -67,11 +72,21 @@ class UserDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
 
 class AttendeeListView(generics.ListAPIView):
     """
-    A view that returns a list of all attendees.
+    A view that returns a paginated list of all attendees in the system.
 
     Only authenticated users with admin privileges are allowed to access this view.
-    """
 
+    The list can be filtered by searching for specific fields, and sorted by
+    dawrah_id, first_name, last_name, email, or phone.
+
+    Pagination is controlled by the 'page' and 'page_size' query parameters.
+
+    serializer_class: The serializer class used to serialize the attendee objects.
+    queryset: The queryset used to retrieve the attendee objects.
+    permission_classes: The permission classes required to access this view.
+    ordering_fields: The fields that can be used to sort the attendee objects.
+    search_fields: The fields that can be used to search for specific attendee objects.
+    """
     serializer_class = AttendeeSerializer
     queryset = Attendee.objects.all()
     permission_classes = [IsAuthenticated, IsAdminUser]
