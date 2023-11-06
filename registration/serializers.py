@@ -36,7 +36,6 @@ class AttendeeSerializer(serializers.ModelSerializer):
     )
 
     email = serializers.EmailField(
-        required=False,
         validators=[
             validators.EmailValidator(),
             UniqueValidator(
@@ -132,7 +131,6 @@ class DonorSerializer(serializers.ModelSerializer):
     )
 
     email = serializers.EmailField(
-        required=False,
         validators=[
             validators.EmailValidator(),
             UniqueValidator(
