@@ -41,6 +41,8 @@ class AllUsersListView(generics.ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated, IsAdminUser]
+    ordering_fields = ["id", "email", "first_name", "last_name", "is_staff", "is_active"]
+    search_fields = ["id", "email", "first_name", "last_name", "is_staff", "is_active"]
 
 
 class UserDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
@@ -74,7 +76,9 @@ class AttendeeListView(generics.ListAPIView):
     serializer_class = AttendeeSerializer
     queryset = Attendee.objects.all()
     permission_classes = [IsAuthenticated, IsAdminUser]
-
+    ordering_fields = ["dawrah_id", "first_name", "last_name", "email", "phone", ]
+    search_fields = ["dawrah_id", "first_name", "last_name", "email", "phone", ]
+    
 class TokenObtainView(TokenObtainPairView):
     """
     View for authenticating a user and generating an access token and a refresh token.
