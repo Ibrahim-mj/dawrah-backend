@@ -1,13 +1,14 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from registration.serializers import AttendeeSerializer
 from registration.models import Attendee
 
 from .serializers import UserCreateSerializer, UserSerializer
 from .models import User
+from .permissions import CustomAdminPermission
 
 
 class UserCreateView(generics.CreateAPIView):
@@ -73,3 +74,27 @@ class AttendeeListView(generics.ListAPIView):
     serializer_class = AttendeeSerializer
     queryset = Attendee.objects.all()
     permission_classes = [IsAuthenticated, IsAdminUser]
+
+class TokenObtainView(TokenObtainPairView):
+    """
+    View for authenticating a user and generating an access token and a refresh token.
+
+    Accepts POST requests with user credentials in the request body.
+    Returns a JSON response with the access token and the refresh token on success.
+
+    Inherits from TokenObtainPairView, which is a built-in view that handles token-based authentication.
+    Uses the IsAdminUser permission class to restrict access to admin users only.
+    """
+    permission_classes = [CustomAdminPermission]
+
+class TokenRefreshView(TokenRefreshView):
+    """
+    View for refreshing an access token.
+
+    Accepts POST requests with a refresh token in the request body.
+    Returns a JSON response with a new access token on success.
+
+    Inherits from TokenRefreshView, which is a built-in view that handles token-based authentication.
+    Uses the IsAdminUser permission class to restrict access to admin users only.
+    """
+    permission_classes = [CustomAdminPermission]
