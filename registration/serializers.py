@@ -161,11 +161,3 @@ class DonorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donor
         fields = "__all__"
-
-class ExistingEmailSerializer(serializers.ModelSerializer):
-    """
-    Serializer for checking already email addresses in the database.
-    """
-    class Meta:
-        model = Attendee
-        fields = ('email',)

@@ -78,7 +78,6 @@ class ExistingEmailView(generics.ListAPIView):
     """
     API endpoint that returns a list of existing email addresses of attendees.
     """
-    serializer_class = ExistingEmailSerializer
 
     def get(self, request, *args, **kwargs):
         existing_emails = Attendee.objects.values_list("email", flat=True)
