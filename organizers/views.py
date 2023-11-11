@@ -7,6 +7,7 @@ from registration.models import Attendee
 
 from .serializers import UserCreateSerializer, UserSerializer
 from .models import User
+
 # from .permissions import CustomAdminPermission
 
 
@@ -45,7 +46,14 @@ class AllUsersListView(generics.ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated, IsAdminUser]
-    ordering_fields = ["id", "email", "first_name", "last_name", "is_staff", "is_active"]
+    ordering_fields = [
+        "id",
+        "email",
+        "first_name",
+        "last_name",
+        "is_staff",
+        "is_active",
+    ]
     search_fields = ["id", "email", "first_name", "last_name", "is_staff", "is_active"]
 
 
@@ -70,6 +78,12 @@ class UserDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
 
+class SingleAttendeeView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AttendeeSerializer
+    queryset = Attendee.objects.all()
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+
 class AttendeeListView(generics.ListAPIView):
     """
     A view that returns a paginated list of all attendees in the system.
@@ -87,8 +101,21 @@ class AttendeeListView(generics.ListAPIView):
     ordering_fields: The fields that can be used to sort the attendee objects.
     search_fields: The fields that can be used to search for specific attendee objects.
     """
+
     serializer_class = AttendeeSerializer
     queryset = Attendee.objects.all()
     permission_classes = [IsAuthenticated, IsAdminUser]
-    ordering_fields = ["dawrah_id", "first_name", "last_name", "email", "phone", ]
-    search_fields = ["dawrah_id", "first_name", "last_name", "email", "phone", ]
+    ordering_fields = [
+        "dawrah_id",
+        "first_name",
+        "last_name",
+        "email",
+        "phone",
+    ]
+    search_fields = [
+        "dawrah_id",
+        "first_name",
+        "last_name",
+        "email",
+        "phone",
+    ]

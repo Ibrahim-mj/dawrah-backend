@@ -1,6 +1,6 @@
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
-from .serializers import AttendeeSerializer, DonorSerializer
+from .serializers import AttendeeSerializer, DonorSerializer, ExistingEmailSerializer
 from .models import Attendee
 
 
@@ -73,3 +73,13 @@ class DonorCreateListView(generics.ListCreateAPIView):
             "data": serializer.data,
         }
         return Response(context, status=status.HTTP_201_CREATED, headers=headers)
+
+class ExistingEmailView(generics.ListAPIView):
+    """
+    API endpoint that returns a list of existing email addresses of attendees.
+    """
+    serializer_class = ExistingEmailSerializer
+
+    def get(self, request, *args, **kwargs):
+        existing_emails = Attendee.objects.values_list("email", flat=True)
+        return Response(existing_emails, status=status.HTTP_200_OK)
