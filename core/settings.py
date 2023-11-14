@@ -223,6 +223,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5731",
+    "http://localhost:5173",
     "dawrah.pages.dev"
 ]
