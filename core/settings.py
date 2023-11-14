@@ -226,3 +226,12 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "dawrah.pages.dev"
 ]
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
