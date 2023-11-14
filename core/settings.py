@@ -218,7 +218,7 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5731",
+    "http://localhost:5173",
     "dawrah.pages.dev"
 ]
 
