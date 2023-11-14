@@ -168,4 +168,4 @@ class ExistingEmailSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Attendee
-        fields = ('email',)
+        fields = ("email",)
