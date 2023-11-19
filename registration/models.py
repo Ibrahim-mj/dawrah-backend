@@ -20,9 +20,9 @@ class Attendee(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-    
+
     class Meta:
-        ordering = ['dawrah_id']
+        ordering = ["dawrah_id"]
 
 
 # class Volunteer(models.Model):

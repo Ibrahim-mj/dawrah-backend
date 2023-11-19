@@ -1,5 +1,6 @@
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
+
 # from django.utils.decorators import method_decorator
 # from corsheaders.decorators import cors_allow_all_methods
 
@@ -85,6 +86,7 @@ class ExistingEmailView(generics.ListAPIView):
     """
     API endpoint that returns a list of existing email addresses of attendees.
     """
+
     serializer_class = ExistingEmailSerializer
 
     def get(self, request, *args, **kwargs):

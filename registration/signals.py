@@ -32,16 +32,30 @@ def generate_unique_id(sender, instance, **kwargs):
             new_id = "DWR-" + str(current_year).zfill(2) + "01"
         instance.dawrah_id = new_id
 
+
 @receiver(post_save, sender=Attendee)
 def send_confirmation_email(sender, instance, created, **kwargs):
     """
     Sends a confirmation email to the attendee after they have registered.
     """
     if created:
+        message = f"Assalamu alaikum wa rahmatullahi wa barakatuhu, {instance.first_name} {instance.last_name}. Thank you for registering for the Dawrah. Your Dawrah ID is {instance.dawrah_id}. Kindly keep this ID safe as you will need it to access the Dawrah. We look forward to seeing you at the Dawrah, inshaAllah."
+        html_message = f"""
+        <html>
+            <body>
+                <p>Assalamu alaikum wa rahmatullahi wa barakatuhu, <strong>{instance.first_name} {instance.last_name}</strong>.</p>
+                <p>Thank you for registering for the Dawrah.</p>
+                <p>Your Dawrah ID is <strong>{instance.dawrah_id}</strong>.</p>
+                <p>Kindly keep this ID safe as you will need it to access the Dawrah.</p>
+                <p>We look forward to seeing you at the Dawrah, inshaAllah.</p>
+            </body>
+        </html>
+        """
         send_mail(
-            subject=f"Dawrah Registration Confirmation, {instance.first_name} {instance.last_name}",
-            message=f"Thank you for registering for the Dawrah. Your Dawrah ID is {instance.dawrah_id}.",
-            from_email= settings.EMAIL_HOST_USER,
+            subject="Dawrah Registration Confirmation",
+            message=message,
+            from_email="Ibrahim - MSSNUI DAWRAH",
             recipient_list=[instance.email],
             fail_silently=False,
+            html_message=html_message,
         )
