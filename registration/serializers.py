@@ -133,9 +133,6 @@ class DonorSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         validators=[
             validators.EmailValidator(),
-            UniqueValidator(
-                queryset=Donor.objects.all(), message="Email already exists"
-            ),
         ],
     )
 
