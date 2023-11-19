@@ -1,5 +1,7 @@
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
+from django.core.mail import send_mail
 from django.dispatch import receiver
+from django.conf import settings
 from datetime import datetime
 
 from .models import Attendee
@@ -29,3 +31,17 @@ def generate_unique_id(sender, instance, **kwargs):
         else:
             new_id = "DWR-" + str(current_year).zfill(2) + "01"
         instance.dawrah_id = new_id
+
+@receiver(post_save, sender=Attendee)
+def send_confirmation_email(sender, instance, created, **kwargs):
+    """
+    Sends a confirmation email to the attendee after they have registered.
+    """
+    if created:
+        send_mail(
+            subject=f"Dawrah Registration Confirmation, {instance.first_name} {instance.last_name}",
+            message=f"Thank you for registering for the Dawrah. Your Dawrah ID is {instance.dawrah_id}.",
+            from_email= settings.EMAIL_HOST_USER,
+            recipient_list=[instance.email],
+            fail_silently=False,
+        )
