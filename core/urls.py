@@ -47,4 +47,6 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
+    # django-debug-toolbar
+    path("__debug__/", include("debug_toolbar.urls")),
 ]

@@ -1,14 +1,11 @@
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
-
-# from django.utils.decorators import method_decorator
-# from corsheaders.decorators import cors_allow_all_methods
+from django.core.cache import cache
 
 from .serializers import AttendeeSerializer, DonorSerializer, ExistingEmailSerializer
 from .models import Attendee
 
 
-# @method_decorator(cors_allow_all_methods, name='dispatch')
 class RegistrationView(generics.CreateAPIView):
     """
     API endpoint that allows attendees to register for the event.
@@ -32,7 +29,6 @@ class RegistrationView(generics.CreateAPIView):
         return Response(context, status=status.HTTP_201_CREATED, headers=headers)
 
 
-# @method_decorator(cors_allow_all_methods, name='dispatch')
 class DonorCreateListView(generics.ListCreateAPIView):
     """
     API endpoint that allows donors to donate to the event.
@@ -81,14 +77,33 @@ class DonorCreateListView(generics.ListCreateAPIView):
         return Response(context, status=status.HTTP_201_CREATED, headers=headers)
 
 
-# @method_decorator(cors_allow_all_methods, name='dispatch')
 class ExistingEmailView(generics.ListAPIView):
     """
     API endpoint that returns a list of existing email addresses of attendees.
     """
 
     serializer_class = ExistingEmailSerializer
+    queryset = Attendee.objects.all()
+
+    def get_cached_data(self):
+        """
+        Helper method to retrieve data from cache.
+        """
+        cache_key = 'existing_emails_cache_key'
+
+        # Try to get data from cache
+        cached_data = cache.get(cache_key)
+
+        if cached_data is not None:
+            return cached_data
+
+        # If data is not in cache, fetch and cache it
+        existing_emails = list(Attendee.objects.values_list("email", flat=True))
+        cache.set(cache_key, existing_emails, timeout=60)  # Cache for 1 minute
+        return existing_emails
 
     def get(self, request, *args, **kwargs):
-        existing_emails = Attendee.objects.values_list("email", flat=True)
+        # Retrieve data from cache or fetch and cache if not present
+        existing_emails = self.get_cached_data()
+
         return Response(existing_emails, status=status.HTTP_200_OK)
