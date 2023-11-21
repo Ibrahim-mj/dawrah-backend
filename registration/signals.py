@@ -54,7 +54,7 @@ def send_confirmation_email(sender, instance, created, **kwargs):
         send_mail(
             subject="Dawrah Registration Confirmation",
             message=message,
-            from_email="Ibrahim - MSSNUI DAWRAH",
+            from_email="MSSNUI DAWRAH",
             recipient_list=[instance.email],
             fail_silently=False,
             html_message=html_message,
