@@ -43,10 +43,10 @@ def send_confirmation_email(sender, instance, created, **kwargs):
         html_message = f"""
         <html>
             <body>
-                <p>Assalamu alaikum wa rahmatullahi wa barakatuhu, <strong>{instance.first_name} {instance.last_name}</strong>.</p>
-                <p>Thank you for registering for the Dawrah.</p>
+                <p>Assalamu 'alaykum wa rahmatullahi wa barakatuhu, <strong>{instance.first_name} {instance.last_name}</strong>.</p>
+                <p>Thank you for registering for the Dawrah program.</p>
                 <p>Your Dawrah ID is <strong>{instance.dawrah_id}</strong>.</p>
-                <p>Kindly keep this ID safe as you will need it to access the Dawrah.</p>
+                <p>Kindly keep this ID safe as you will need it to access the program.</p>
                 <p>We look forward to seeing you at the Dawrah, inshaAllah.</p>
             </body>
         </html>

@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django.core.cache import cache
 
 from .serializers import AttendeeSerializer, DonorSerializer, ExistingEmailSerializer
-from .models import Attendee
+from .models import Attendee, Donor
 
 
 class RegistrationView(generics.CreateAPIView):
@@ -60,7 +60,7 @@ class DonorCreateListView(generics.ListCreateAPIView):
         return super(DonorCreateListView, self).get_permissions()
 
     def get(self, request, *args, **kwargs):
-        donors = Attendee.objects.filter(donor=True)
+        donors = Donor.objects.all()
         serializer = self.get_serializer(donors, many=True)
         context = {"message": "Donors retrieved successfully", "data": serializer.data}
         return Response(context, status=status.HTTP_200_OK)
