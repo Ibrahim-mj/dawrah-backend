@@ -16,7 +16,10 @@ class AttendeeSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(
         max_length=100,
         validators=[
-            validators.RegexValidator(r"^[a-zA-Z ]+$", "Name must be letters only"),
+            validators.RegexValidator(
+                r"^[a-zA-Z-' ]+$",
+                "Name must include letters, hyphens, or apostrophes only",
+            ),
         ],
         error_messages={
             "required": "Please enter your first name",
@@ -27,7 +30,10 @@ class AttendeeSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(
         max_length=100,
         validators=[
-            validators.RegexValidator(r"^[a-zA-Z ]+$", "Name must be letters only"),
+            validators.RegexValidator(
+                r"^[a-zA-Z-' ]+$",
+                "Name must include letters, hyphens, or apostrophes only",
+            ),
         ],
         error_messages={
             "required": "Please enter your last name",
@@ -76,7 +82,8 @@ class AttendeeSerializer(serializers.ModelSerializer):
     department = serializers.CharField(
         validators=[
             validators.RegexValidator(
-                r"^[a-zA-Z ]+$", "Department must be letters only"
+                r"^[a-zA-Z-' ,.()&]+$",
+                "Department name can include letters, hyphens, apostrophes, commas, periods, parentheses, and ampersands",
             ),
         ],
         error_messages={
@@ -111,7 +118,10 @@ class DonorSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(
         max_length=100,
         validators=[
-            validators.RegexValidator(r"^[a-zA-Z ]+$", "Name must be letters only"),
+            validators.RegexValidator(
+                r"^[a-zA-Z-' ]+$",
+                "Name must include letters, hyphens, or apostrophes only",
+            ),
         ],
         error_messages={
             "required": "Please enter your first name",
@@ -122,7 +132,10 @@ class DonorSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(
         max_length=100,
         validators=[
-            validators.RegexValidator(r"^[a-zA-Z ]+$", "Name must be letters only"),
+            validators.RegexValidator(
+                r"^[a-zA-Z-' ]+$",
+                "Name must include letters, hyphens, or apostrophes only",
+            ),
         ],
         error_messages={
             "required": "Please enter your last name",

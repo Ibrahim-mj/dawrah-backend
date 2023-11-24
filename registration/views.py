@@ -89,7 +89,7 @@ class ExistingEmailView(generics.ListAPIView):
         """
         Helper method to retrieve data from cache.
         """
-        cache_key = 'existing_emails_cache_key'
+        cache_key = "existing_emails_cache_key"
 
         # Try to get data from cache
         cached_data = cache.get(cache_key)
