@@ -29,7 +29,7 @@ class RegistrationView(generics.CreateAPIView):
         return Response(context, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class DonorCreateListView(generics.ListCreateAPIView, generics.DestroyAPIView):
+class DonorCreateListView(generics.ListCreateAPIView):
     """
     API endpoint that allows donors to donate to the event.
 
