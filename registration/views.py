@@ -29,7 +29,7 @@ class RegistrationView(generics.CreateAPIView):
         return Response(context, status=status.HTTP_201_CREATED, headers=headers)
 
 
-class DonorCreateListView(generics.ListCreateAPIView):
+class DonorCreateListView(generics.ListCreateAPIView, generics.DestroyAPIView):
     """
     API endpoint that allows donors to donate to the event.
 
@@ -53,10 +53,10 @@ class DonorCreateListView(generics.ListCreateAPIView):
     queryset = Attendee.objects.all()
 
     def get_permissions(self):
-        if self.request.method == "GET":
-            self.permission_classes = [permissions.IsAdminUser]
-        else:
+        if self.request.method == "POST":
             self.permission_classes = [permissions.AllowAny]
+        else:
+            self.permission_classes = [permissions.IsAdminUser]
         return super(DonorCreateListView, self).get_permissions()
 
     def get(self, request, *args, **kwargs):
@@ -75,6 +75,58 @@ class DonorCreateListView(generics.ListCreateAPIView):
             "data": serializer.data,
         }
         return Response(context, status=status.HTTP_201_CREATED, headers=headers)
+
+class DonorDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that allows donors to donate to the event.
+
+    This view provides three methods:
+    - GET: Retrieve a specific donor.
+    - PUT: Update a specific donor.
+    - DELETE: Delete a specific donor.
+
+    GET method is restricted to admin users only, while PUT and DELETE methods are allowed to anyone.
+
+    Attributes:
+        serializer_class: The serializer class used to serialize and deserialize donor data.
+        queryset: The queryset used to retrieve donors from the database.
+
+    Methods:
+        get_permissions: Returns the permission classes that apply to the current request.
+        get: Handles GET requests and returns a specific donor.
+        put: Handles PUT requests and updates a specific donor.
+        delete: Handles DELETE requests and deletes a specific donor.
+    """
+
+    serializer_class = DonorSerializer
+    queryset = Donor.objects.all()
+
+    def get_permissions(self):
+        self.permission_classes = [permissions.IsAdminUser]
+        return super(DonorDetailView, self).get_permissions()
+
+    def get(self, request, *args, **kwargs):
+        donor = self.get_object()
+        serializer = self.get_serializer(donor)
+        context = {"message": "Donor retrieved successfully", "data": serializer.data}
+        return Response(context, status=status.HTTP_200_OK)
+
+    def put(self, request, *args, **kwargs):
+        donor = self.get_object()
+        serializer = self.get_serializer(donor, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        context = {
+            "message": "Donor updated successfully",
+            "data": serializer.data,
+        }
+        return Response(context, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        donor = self.get_object()
+        donor.delete()
+        context = {"message": "Donor deleted successfully"}
+        return Response(context, status=status.HTTP_200_OK)
 
 
 class ExistingEmailView(generics.ListAPIView):
