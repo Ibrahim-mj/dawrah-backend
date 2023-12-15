@@ -4,6 +4,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.core import validators
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 # from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User
@@ -72,6 +73,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("id",)
 
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     # @classmethod
     # def get_token(cls, user):
@@ -89,9 +91,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom data
         # data['user_id'] = self.user.id
-        data['email'] = self.user.email
-        data['first_name'] = self.user.first_name
-        data['last_name'] = self.user.last_name
-        data['is_staff'] = self.user.is_staff
+        data["email"] = self.user.email
+        data["first_name"] = self.user.first_name
+        data["last_name"] = self.user.last_name
+        data["is_staff"] = self.user.is_staff
 
         return data
