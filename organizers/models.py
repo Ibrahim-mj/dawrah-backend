@@ -39,3 +39,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class EmailRecipient(models.Model):
+    email_subject = models.CharField(max_length=500)
+    email = models.EmailField(unique=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = "Email Recipient"
+        verbose_name_plural = "Email Recipients"
+        unique_together = ("email_subject", "email")

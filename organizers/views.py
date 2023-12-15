@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework import filters  
+from rest_framework import filters
 
 from registration.serializers import AttendeeSerializer
 from registration.models import Attendee
@@ -127,9 +127,9 @@ class AttendeeListView(generics.ListAPIView):
         Optionally restricts the returned response to a given user
         """
         queryset = Attendee.objects.all()
-        first_name = self.request.query_params.get('first_name')
-        last_name = self.request.query_params.get('last_name')
-        dawrah_id = self.request.query_params.get('dawrah_id')
+        first_name = self.request.query_params.get("first_name")
+        last_name = self.request.query_params.get("last_name")
+        dawrah_id = self.request.query_params.get("dawrah_id")
         if first_name is not None:
             queryset = queryset.filter(first_name=first_name)
         if last_name is not None:
