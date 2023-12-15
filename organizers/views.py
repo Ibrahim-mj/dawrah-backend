@@ -130,12 +130,15 @@ class AttendeeListView(generics.ListAPIView):
         first_name = self.request.query_params.get("first_name")
         last_name = self.request.query_params.get("last_name")
         dawrah_id = self.request.query_params.get("dawrah_id")
+        email = self.request.query_params.get("email")
         if first_name is not None:
             queryset = queryset.filter(first_name=first_name)
         if last_name is not None:
             queryset = queryset.filter(last_name=last_name)
         if dawrah_id is not None:
             queryset = queryset.filter(dawrah_id=dawrah_id)
+        if email is not None:
+            queryset = queryset.filter(email=email)
         else:
             queryset = queryset.all()
         return queryset
