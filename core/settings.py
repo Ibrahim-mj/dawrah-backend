@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "corsheaders",
     'debug_toolbar',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -262,3 +263,8 @@ CACHES = {
         'LOCATION': BASE_DIR / "cache",
     }
 }
+
+
+CRONJOBS = [
+    ('*/10 * * * *', 'organizers.tasks.send_notification_email'),  # Run every 10 minutes
+]
