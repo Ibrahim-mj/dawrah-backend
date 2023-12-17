@@ -13,6 +13,7 @@ class Command(BaseCommand):
         total_mail_sent = 0
         for attendee in attendees:
             if not EmailRecipient.objects.filter(email=attendee.email).exists():
+                subject="The Long Awaited Dawrah is here!!"
                 message = f"""
                 As-Salamu Alaikum Warahmatullahi Wabarakatuh,
 
@@ -96,7 +97,7 @@ class Command(BaseCommand):
                 """
                 try:
                     send_mail(
-                        subject="The Long Awaited Dawrah is here!!",
+                        subject=subject,
                         message=message,
                         from_email="MSSNUI DAWRAH",
                         recipient_list=[attendee.email],
