@@ -61,6 +61,10 @@ class Command(BaseCommand):
                         <strong>The Dawrah Committee</strong>
                     </p>
 
+                    <div style="background-color: #f1f1f1; padding: 10px; text-align: center;">
+                        <p>&copy; 2023 The Dawrah Committee. All rights reserved.</p>
+                    </div>
+
                 </body>
                 </html>
                 """
