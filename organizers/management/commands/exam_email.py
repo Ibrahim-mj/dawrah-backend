@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         attendees = Attendee.objects.all()
 
-        subject = "Your Feedback Matters!"
+        subject = "Exam - Time to Yest Your Knowledge!"
         total_mail_sent = 0
         for attendee in attendees:
             if not EmailRecipient.objects.filter(
@@ -26,47 +26,23 @@ class Command(BaseCommand):
                 </head>
                 <body style="font-family: 'Arial', sans-serif;">
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        <strong>As Salamu alaykum warahmotulahi wabarakatuhu</strong>
-                    </p>
+                    <p>As-Salamu Alaikum Warahmatullahi Wabarakatuh,</p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        <strong>Dear {attendee.first_name},</strong>
-                    </p>
+                    <p>Dear {attendee.first_name},</p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        We extend our heartfelt gratitude for your active participation in the Da'wah Weekend! Your presence has added immense value to the program, and we sincerely appreciate your commitment to seeking knowledge.
-                    </p>
+                    <p>We extend our heartfelt appreciation for your active participation in the Dawrah program.</p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        How has your stay at the Da'wah Weekend been? How are the lectures so far? What have you learnt? Overall, how has the Dawrah been for you?
-                    </p>
+                    <p>The Dawrah exam is a crucial part of this enriching experience. We are pleased to inform you that the exam link is included below. However, please note that the exam is not open yet. The access to the exam will be activated tomorrow when we are ready to begin.</p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        Well, <strong>{attendee.first_name}</strong>, kindly take a moment to share your thoughts and experiences about the program. Your valuable input will help us plan future programs better.
-                    </p>
+                    <p>Thank you for your understanding and commitment to the program. We look forward to your successful completion of the exam.</p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        You can find the link to the form <a href="https://forms.gle/rzhs1dTU9CkCoRqPA" style="color: #3498db; text-decoration: none;"><strong>here</strong></a> to give us your feedback. This should not take up to 2 minutes of your time.
-                    </p>
+                    <p>Best regards,</p>
+                    <p>The Dawrah Committee</p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        May Allah (SWT) make this knowledge beneficial to you.
-                    </p>
-
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        JazakumuLlahu Khairan for your time and contribution.
-                    </p>
-
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        <strong>Yours-in-Islam,</strong><br>
-                        <strong>The Dawrah Committee</strong>
-                    </p>
-
+                    <p>Exam Link: <a href="https://forms.gle/STaEMN3fqx3dEhWi9">Click here</a></p>
                     <div style="background-color: #f1f1f1; padding: 10px; text-align: center;">
                         <p>&copy; 2023 The Dawrah Committee. All rights reserved.</p>
                     </div>
-
                 </body>
                 </html>
                 """

@@ -13,10 +13,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         attendees = Attendee.objects.all()
 
-        subject="Dawrah Weekend Kickoff!!!"
+        subject = "Dawrah Weekend Kickoff!!!"
         total_mail_sent = 0
         for attendee in attendees:
-            if not EmailRecipient.objects.filter(email=attendee.email, email_subject=subject).exists():
+            if not EmailRecipient.objects.filter(
+                email=attendee.email, email_subject=subject
+            ).exists():
                 html_message = f"""
                 <!DOCTYPE html>
                 <html lang="en">
@@ -83,9 +85,11 @@ class Command(BaseCommand):
                         from_email="MSSNUI DAWRAH",
                         to=[attendee.email],
                     )
-                    file_path = os.path.join(settings.BASE_DIR, 'dawrah_timetable.docx')
+                    file_path = os.path.join(settings.BASE_DIR, "dawrah_timetable.docx")
                     email.attach_file(file_path)  # Add this line
-                    email.content_subtype = "html"  # Add this line if you're sending an HTML email
+                    email.content_subtype = (
+                        "html"  # Add this line if you're sending an HTML email
+                    )
                     email.send(fail_silently=False)
                     self.stdout.write(
                         self.style.SUCCESS(
@@ -105,4 +109,6 @@ class Command(BaseCommand):
                         )
                     )
 
-        self.stdout.write(self.style.SUCCESS(f"{total_mail_sent} mails sent successfully!"))
+        self.stdout.write(
+            self.style.SUCCESS(f"{total_mail_sent} mails sent successfully!")
+        )

@@ -13,7 +13,7 @@ class Command(BaseCommand):
         total_mail_sent = 0
         for attendee in attendees:
             if not EmailRecipient.objects.filter(email=attendee.email).exists():
-                subject="The Long Awaited Dawrah is here!!"
+                subject = "The Long Awaited Dawrah is here!!"
                 message = f"""
                 As-Salamu Alaikum Warahmatullahi Wabarakatuh,
 
@@ -122,4 +122,6 @@ class Command(BaseCommand):
                         )
                     )
 
-        self.stdout.write(self.style.SUCCESS(f"{total_mail_sent} mails sent successfully!"))
+        self.stdout.write(
+            self.style.SUCCESS(f"{total_mail_sent} mails sent successfully!")
+        )
