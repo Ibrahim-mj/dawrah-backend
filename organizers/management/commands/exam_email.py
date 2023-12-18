@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.core.mail import EmailMessage
 from registration.models import Attendee
-from organizers.models import EmailRecipient
+from organizers.models import EmailRecipient, EmailSubject
 
 
 class Command(BaseCommand):
@@ -13,7 +13,7 @@ class Command(BaseCommand):
         subject = "Exam - Time to Yest Your Knowledge!"
         total_mail_sent = 0
         for attendee in attendees:
-            email_subject = EmailRecipient.objects.get_or_create(subject=subject)
+            email_subject = EmailSubject.objects.get_or_create(subject=subject)
             email_recipient, created = EmailRecipient.objects.get_or_create(
                 email=attendee.email
             )
