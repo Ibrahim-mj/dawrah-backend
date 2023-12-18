@@ -13,11 +13,11 @@ class Command(BaseCommand):
         subject = "Your Feedback Matters!"
         total_mail_sent = 0
         for attendee in attendees:
-            email_subject = EmailSubject.objects.get_or_create(subject=subject)
-            email_recipient, created = EmailRecipient.objects.get_or_create(
+            email_subject, created = EmailSubject.objects.get_or_create(subject=subject)
+            email_recipient, recipient_created = EmailRecipient.objects.get_or_create(
                 email=attendee.email
             )
-            if not email_recipient.email_subjects.filter(subject=subject).exists():
+            if not email_recipient.email_subjects.filter(id=email_subject.id).exists():
                 html_message = f"""
                 <!DOCTYPE html>
                 <html lang="en">
