@@ -14,7 +14,7 @@ class Command(BaseCommand):
         total_mail_sent = 0
         for attendee in attendees:
             email_subject, created = EmailSubject.objects.get_or_create(subject=subject)
-            email_recipient, recipient_created = EmailRecipient.objects.get(
+            email_recipient, recipient_created = EmailRecipient.objects.get_or_create(
                 email=attendee.email
             )
             if not email_recipient.email_subjects.filter(id=email_subject.id).exists():
