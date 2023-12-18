@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         attendees = Attendee.objects.all()
 
-        subject = "Your Feedback Matters!"
+        subject = "1445AH Whatsapp Group Chat Link!"
         total_mail_sent = 0
         for attendee in attendees:
             email_subject, created = EmailSubject.objects.get_or_create(subject=subject)
@@ -28,42 +28,53 @@ class Command(BaseCommand):
                 </head>
                 <body style="font-family: 'Arial', sans-serif;">
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        <strong>As Salamu alaykum warahmotulahi wabarakatuhu</strong>
-                    </p>
+                    <div style="background-color: #f8f8f8; padding: 20px;">
+                        <h2 style="color: #333333;">MSSNUI DAWRAH - 1445AH!</h2>
+                    </div>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        <strong>Dear {attendee.first_name},</strong>
-                    </p>
+                    <div style="max-width: 600px; margin: 20px auto; padding: 20px; background-color: #ffffff;">
+                        <p style="color: #333333;">
+                            Dear {attendee.firsst_name},
+                        </p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        We extend our heartfelt gratitude for your active participation in the Da'wah Weekend! Your presence has added immense value to the program, and we sincerely appreciate your commitment to seeking knowledge.
-                    </p>
+                        <p style="color: #333333;">
+                            Assalamu Alaikum!
+                        </p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        How has your stay at the Da'wah Weekend been? How are the lectures so far? What have you learnt? Overall, how has the Dawrah been for you?
-                    </p>
+                        <p style="color: #333333;">
+                            We hope this message finds you in good health and high spirits. As part of our effort to enhance communication
+                            and foster a sense of community among Dawrah participants, we have created a WhatsApp group.
+                        </p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        Well, <strong>{attendee.first_name}</strong>, kindly take a moment to share your thoughts and experiences about the program. Your valuable input will help us plan future programs better.
-                    </p>
+                        <p style="color: #333333;">
+                            Join the group to:
+                        </p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        You can find the link to the form <a href="https://forms.gle/rzhs1dTU9CkCoRqPA" style="color: #3498db; text-decoration: none;"><strong>here</strong></a> to give us your feedback. This should not take up to 2 minutes of your time.
-                    </p>
+                        <ul style="color: #333333;">
+                            <li>Receive important announcements.</li>
+                            <li>Engage in discussions related to Dawrah topics.</li>
+                            <li>Connect with fellow participants.</li>
+                        </ul>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        May Allah (SWT) make this knowledge beneficial to you.
-                    </p>
+                        <p style="color: #333333;">
+                            Click the link below to join:
+                        </p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        JazakumuLlahu Khairan for your time and contribution.
-                    </p>
+                        <p style="text-align: center; margin-top: 20px;">
+                            <a href="https://chat.whatsapp.com/KWBhJBobhj2HsUlXfvSpcu" style="background-color: #4CAF50; color: #ffffff; padding: 10px 15px; text-decoration: none; display: inline-block; border-radius: 5px;">
+                                Join Dawrah WhatsApp Group
+                            </a>
+                        </p>
 
-                    <p style="font-size: 16px; line-height: 1.6;">
-                        <strong>Yours-in-Islam,</strong><br>
-                        <strong>The Dawrah Committee</strong>
-                    </p>
+                        <p style="color: #333333;">
+                            We look forward to your active participation and meaningful interactions in the group.
+                        </p>
+
+                        <p style="color: #333333;">
+                            Best regards,<br>
+                            The Dawrah Committee
+                        </p>
+                    </div>
 
                     <div style="background-color: #f1f1f1; padding: 10px; text-align: center;">
                         <p>&copy; 2023 The Dawrah Committee. All rights reserved.</p>

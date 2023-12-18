@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         attendees = Attendee.objects.all()
 
-        subject = "Exam - Time to Yest Your Knowledge!"
+        subject = "Exam - Time to Test Your Knowledge!"
         total_mail_sent = 0
         for attendee in attendees:
             email_subject, created = EmailSubject.objects.get_or_create(subject=subject)
