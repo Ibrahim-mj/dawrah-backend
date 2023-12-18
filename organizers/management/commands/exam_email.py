@@ -13,9 +13,11 @@ class Command(BaseCommand):
         subject = "Exam - Time to Yest Your Knowledge!"
         total_mail_sent = 0
         for attendee in attendees:
-            if not EmailRecipient.objects.filter(
-                email=attendee.email, email_subject=subject
-            ).exists():
+            email_subject = EmailRecipient.objects.get_or_create(subject=subject)
+            email_recipient, created = EmailRecipient.objects.get_or_create(
+                email=attendee.email
+            )
+            if not email_recipient.email_subjects.filter(subject=subject).exists():
                 html_message = f"""
                 <!DOCTYPE html>
                 <html lang="en">
@@ -32,7 +34,7 @@ class Command(BaseCommand):
 
                     <p>We extend our heartfelt appreciation for your active participation in the Dawrah program.</p>
 
-                    <p>The Dawrah exam is a crucial part of this enriching experience. We are pleased to inform you that the exam link is included below. However, please note that the exam is not open yet. The access to the exam will be activated tomorrow when we are ready to begin.</p>
+                    <p>The Dawrah exam is a crucial part of this enriching experience. We are pleased to inform you that the exam link is included below. However, please note that the exam is not open yet. The access to the exam will be activated when we are ready to begin.</p>
 
                     <p>Thank you for your understanding and commitment to the program. We look forward to your successful completion of the exam.</p>
 
@@ -60,10 +62,7 @@ class Command(BaseCommand):
                             f"Email sent to {attendee.first_name} {attendee.last_name} with email: {attendee.email}!"
                         )
                     )
-                    EmailRecipient.objects.create(
-                        email_subject=subject,
-                        email=attendee.email,
-                    )
+                    email_recipient.email_subjects.add(email_subject)
                     total_mail_sent += 1
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(e))

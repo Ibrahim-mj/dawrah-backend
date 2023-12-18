@@ -13,9 +13,11 @@ class Command(BaseCommand):
         subject = "Your Feedback Matters!"
         total_mail_sent = 0
         for attendee in attendees:
-            if not EmailRecipient.objects.filter(
-                email=attendee.email, email_subject=subject
-            ).exists():
+            email_subject = EmailRecipient.objects.get_or_create(subject=subject)
+            email_recipient, created = EmailRecipient.objects.get_or_create(
+                email=attendee.email
+            )
+            if not email_recipient.email_subjects.filter(subject=subject).exists():
                 html_message = f"""
                 <!DOCTYPE html>
                 <html lang="en">
@@ -84,10 +86,7 @@ class Command(BaseCommand):
                             f"Email sent to {attendee.first_name} {attendee.last_name} with email: {attendee.email}!"
                         )
                     )
-                    EmailRecipient.objects.create(
-                        email_subject=subject,
-                        email=attendee.email,
-                    )
+                    email_recipient.email_subjects.add(email_subject)
                     total_mail_sent += 1
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(e))
