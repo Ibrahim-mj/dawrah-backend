@@ -73,6 +73,28 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("id",)
 
+class ResendVerificationEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+class PasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    class Meta:
+        fields = ("email", "redirect_url")
+
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    token = serializers.CharField()
+    password = serializers.CharField(
+        min_length=8
+    )  # TODO: Add validators to ensure strong password
+    confirm_password = serializers.CharField(min_length=8)
+
+    def validate(self, data):
+        if data["password"] != data["confirm_password"]:
+            raise serializers.ValidationError("Passwords do not match.")
+        return data
+
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     # @classmethod

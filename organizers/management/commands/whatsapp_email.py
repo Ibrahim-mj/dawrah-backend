@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
                     <div style="max-width: 600px; margin: 20px auto; padding: 20px; background-color: #ffffff;">
                         <p style="color: #333333;">
-                            Dear {attendee.firsst_name},
+                            Dear {attendee.first_name},
                         </p>
 
                         <p style="color: #333333;">

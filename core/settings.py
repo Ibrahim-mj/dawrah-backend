@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
+
+from decouple import Config, RepositoryEnv
+
+# Reload .env dynamically
+config = Config(RepositoryEnv('.env'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +35,7 @@ if DEBUG:
         '127.0.0.1',
     ]
 
-ALLOWED_HOSTS = ['127.0.0.1', 'DevIbrahim.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,8 +47,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # my apps
     "registration.apps.RegistrationConfig",
     "organizers.apps.OrganizersConfig",
+    "payments.apps.PaymentsConfig",
 
     # Third Party Apps
     "rest_framework",
@@ -163,6 +170,7 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    "EXCEPTION_HANDLER": "core.utils.custom_exception_handler",
     # 'SEARCH_PARAM': 'q',
     # 'SEARCH_FIELDS': ['username', 'email'],
     # 'DEFAULT_THROTTLE_CLASSES': [
@@ -251,20 +259,47 @@ CORS_ALLOW_METHODS = (
 # CORS_ALLOW_ALL_ORIGINS = True
 
 EMAIL_BACKEND = config("EMAIL_BACKEND")
-EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = config("EMAIL_PORT", cast=int)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+# EMAIL_HOST = config("EMAIL_HOST")
+# EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+# EMAIL_PORT = config("EMAIL_PORT", cast=int)
+# EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': BASE_DIR / "cache",
+
+
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': BASE_DIR / "cache",
+#     }
+# }
+
+
+# Paystack keys
+PAYSTACK_SECRET_KEY = config("PAYSTACK_SECRET_KEY")
+
+# Frontend Base URL
+FE_URL = config("FE_URL")
+
+VERIFY_EMAIL_REDIRECT_URL= config("VERIFY_EMAIL_REDIRECT_URL")
+RESET_PASSWORD_REDIRECT_URL= config("RESET_PASSWORD_REDIRECT_URL")
+GOOGLE_SIGNIN_REDIRECT_URL= config("GOOGLE_SIGNIN_REDIRECT_URL")
+
+# Google sign in
+AUTHLIB_OAUTH_CLIENTS = {
+    'google': {
+        'client_id': config('GOOGLE_CLIENT_ID'),
+        'client_secret': config('GOOGLE_CLIENT_SECRET'),
+        'authorize_url': 'https://accounts.google.com/o/oauth2/auth',
+        'authorize_params': None,
+        'access_token_url': 'https://accounts.google.com/o/oauth2/token',
+        'access_token_params': None,
+        'refresh_token_url': None,
+        'client_kwargs': {
+            'scope': 'openid profile email',
+
+        },
+        'jwks_uri': 'https://www.googleapis.com/oauth2/v3/certs',
     }
 }
-
-
-CRONJOBS = [
-    ('*/10 * * * *', 'organizers.tasks.send_notification_email'),  # Run every 10 minutes
-]

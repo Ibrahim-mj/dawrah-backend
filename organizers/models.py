@@ -26,10 +26,25 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
+class UserProviderEnum:
+    GOOGLE = "google"
+    EMAIL = "email"
+
+    @classmethod
+    def choices(cls):
+        return [(attr, attr) for attr in dir(cls) if not attr.startswith("__")]
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
+    auth_provider = models.CharField(
+        max_length=50,
+        choices=UserProviderEnum.choices(),
+        default=UserProviderEnum.EMAIL,
+    )
+    is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 

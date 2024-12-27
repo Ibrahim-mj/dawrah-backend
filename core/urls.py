@@ -30,11 +30,11 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("event/", include("registration.urls")),
-    path("organizers/", include("organizers.urls")),
-    # JWT
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+
+    path("api/event/", include("registration.urls"), name="event"),
+    path("api/organizers/", include("organizers.urls", namespace="organizers"), name="organizers"),
+    path("api/payments/", include("payments.urls"), name="payments"),
+    
     # DRF Spectacular
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
