@@ -123,6 +123,7 @@ class AttendeeSerializer(serializers.ModelSerializer):
             "phone",
             "department",
             "level_of_study",
+            "hall_off_residence",
             "level",
             "dawrah_id",
         )
