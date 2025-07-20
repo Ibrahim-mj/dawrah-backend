@@ -16,6 +16,7 @@ class Attendee(models.Model):
     phone = models.CharField(max_length=100)
     department = models.CharField(max_length=100)
     level_of_study = models.PositiveIntegerField()
+    hall_off_residence = models.CharField(max_length=100)
     level = models.CharField(max_length=100, choices=LEVEL_CHOICES)
     paid = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)

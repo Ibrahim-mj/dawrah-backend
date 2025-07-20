@@ -30,7 +30,7 @@ class RegistrationView(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        payment_url = init_payment(serializer.data["email"], 1000) # This pays 10 naira though.
+        payment_url = init_payment(serializer.data["email"], 2100 * 100)
         context = {
             "success": True,
             "message": "Registration successful. Please proceed to make your payment",

@@ -41,6 +41,20 @@ class AttendeeSerializer(serializers.ModelSerializer):
         },
     )
 
+    hall_off_residence = serializers.CharField(
+        max_length=100,
+        validators=[
+            validators.RegexValidator(
+                r"^[a-zA-Z-' ,.()&]+$",
+                "Hall of residence name can include letters, hyphens, apostrophes, commas, periods, parentheses, and ampersands",
+            ),
+        ],
+        error_messages={
+            "required": "Please enter your hall of residence",
+            "blank": "Please enter your hall of residence",
+        },
+    )
+
     email = serializers.EmailField(
         validators=[
             validators.EmailValidator(),

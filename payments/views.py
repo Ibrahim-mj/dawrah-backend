@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import transaction
 
 from rest_framework.views import APIView
@@ -62,7 +63,6 @@ class PaystackWebhookView(APIView):
         event = payload.get("event", "")
         data = payload.get("data", {})
         reference = data.get("reference", None)
-        print(f"This is the value of the reference: {reference}")
 
         if not reference:
             return Response(
@@ -252,7 +252,7 @@ class DonorCreateListView(generics.ListCreateAPIView):
         headers = self.get_success_headers(serializer.data)
 
         payment_url = init_payment(
-            serializer.data["email"], serializer.data["amount"], donation=True
+            dict(serializer.data).get("email"), dict(serializer.data).get("amount"), donation=True
         )
         context = {
             "success": True,
@@ -412,14 +412,14 @@ class PaymentRetryView(APIView):
             )
 
         # Extract email, amount, and callback URL
-        email = payment.attendee.email
+        email = payment.attendee.email if isinstance(payment, EventPayment) else payment.donor.email
         amount = payment.amount
         callback_url = f"https://{settings.FE_URL}/payment-success"
 
         # Reinitialize payment using the utility function
         response_data = init_payment(email, amount, reference, callback_url)
 
-        if response_data.get("status"):
+        if response_data and response_data.get("status"):
             return Response(
                 {
                     "status": "success",
