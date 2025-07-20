@@ -12,13 +12,6 @@ from .models import Attendee
 
 
 class RegistrationView(generics.CreateAPIView):
-    """
-    API endpoint that allows attendees to register for the event.
-
-    Methods:
-    POST -- Register a new attendee with the provided data.
-    """
-
     serializer_class = AttendeeSerializer
     queryset = Attendee.objects.all()
 
@@ -27,15 +20,42 @@ class RegistrationView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+        attendee = Attendee.objects.filter(email=email).first()
+
+        if attendee:
+            if attendee.dawrah_id:
+                return Response({
+                    "success": False,
+                    "message": "You have already registered for this event.",
+                    "data": {"email": attendee.email}
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            if not attendee.paid:
+                payment_url = init_payment(attendee.email, 2100 * 100)
+                return Response({
+                    "success": False,
+                    "message": "You have already registered but not paid yet. Please proceed to make your payment.",
+                    "payment_url": payment_url,
+                    "data": {
+                        "email": attendee.email,
+                    }
+                }, status=status.HTTP_400_BAD_REQUEST)
+
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        payment_url = init_payment(serializer.data["email"], 2100 * 100)
-        context = {
+        try:
+            payment_url = init_payment(serializer.validated_data["email"], 2100 * 100)
+        except Exception:
+            return Response({
+                "success": False,
+                "message": "Failed to initialize payment. Please try again later."
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({
             "success": True,
-            "message": "Registration successful. Please proceed to make your payment",
+            "message": "Registration successful. Please proceed to make your payment.",
             "payment_url": payment_url,
             "data": serializer.data,
-        }
-        # I need to capture the serializers error and return them in a well formatted and consistent manner too
-        return Response(context, status=status.HTTP_201_CREATED, headers=headers)
+        }, status=status.HTTP_201_CREATED, headers=headers)

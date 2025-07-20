@@ -58,9 +58,6 @@ class AttendeeSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         validators=[
             validators.EmailValidator(),
-            UniqueValidator(
-                queryset=Attendee.objects.all(), message="Email already exists"
-            ),
         ],
     )
 
