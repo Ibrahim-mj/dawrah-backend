@@ -31,22 +31,22 @@ from drf_spectacular.views import (
 urlpatterns = [
     path("admin/", admin.site.urls),
 
-    path("api/event/", include("registration.urls"), name="event"),
-    path("api/organizers/", include("organizers.urls", namespace="organizers"), name="organizers"),
-    path("api/payments/", include("payments.urls"), name="payments"),
+    path("dawrah/api/event/", include("registration.urls"), name="event"),
+    path("dawrah/api/organizers/", include("organizers.urls", namespace="organizers"), name="organizers"),
+    path("dawrah/api/payments/", include("payments.urls"), name="payments"),
     
     # DRF Spectacular
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("dawrah/api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
-        "api/schema/swagger-ui/",
+        "dawrah/api/schema/swagger-ui/",
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="swagger-ui",
     ),
     path(
-        "api/schema/redoc/",
+        "dawrah/api/schema/redoc/",
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
     # django-debug-toolbar
-    path("__debug__/", include("debug_toolbar.urls")),
+    path("dawrah/__debug__/", include("debug_toolbar.urls")),
 ]
