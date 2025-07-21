@@ -28,14 +28,16 @@ class RegistrationView(generics.CreateAPIView):
                 return Response({
                     "success": False,
                     "message": "You have already registered for this event.",
+                    "paid": attendee.paid,
                     "data": {"email": attendee.email}
                 }, status=status.HTTP_400_BAD_REQUEST)
 
             if not attendee.paid:
-                payment_url = init_payment(attendee.email, 2100 * 100)
+                payment_url = init_payment(attendee.email, 2030 * 100)
                 return Response({
                     "success": False,
                     "message": "You have already registered but not paid yet. Please proceed to make your payment.",
+                    "paid": attendee.paid,
                     "payment_url": payment_url,
                     "data": {
                         "email": attendee.email,
